@@ -90,15 +90,6 @@ public class ShortOrderService implements ApplicationListener<ShortOrderEvent> {
         HttpEntity<PlaceOrder> placeOrderEntity = new HttpEntity<>(order, headers);
         logger.info("Going to place Short order at :"+ new Timestamp(System.currentTimeMillis()));
         ResponseEntity<PlaceOrderResponse> response = placeOrderService.placeOrderRequest(placeOrderUrl, placeOrderEntity);
-        OrderDetails orderDetails = response.getBody().getOrderDetails();
-        if(response.getStatusCode().is2xxSuccessful() && orderDetails.getTradingSymbol().contains("CE")){
-            OrderEventData eventData = new OrderEventData();
-            eventData.setQuantity(Integer.parseInt(orderDetails.getFilledQuantity()));
-            eventData.setTransactionType(orderDetails.getTransactionType());
-            eventData.setTradingSymbol(orderDetails.getTradingSymbol());
-            PutLongOrderEvent putLongOrderEvent = new PutLongOrderEvent(this, eventData);
-            applicationEventPublisher.publishEvent(putLongOrderEvent);
-        }
         return response;
     }
 
@@ -147,8 +138,16 @@ public class ShortOrderService implements ApplicationListener<ShortOrderEvent> {
     public void onApplicationEvent(ShortOrderEvent orderEvent) {
         OrderEventData data = orderEvent.getData();
         if(data.getQuantity() > 0){
-            placeShortOrder(data.getQuantity(), data.getTradingSymbol());
+            ResponseEntity<PlaceOrderResponse> response = placeShortOrder(data.getQuantity(), data.getTradingSymbol());
+            OrderDetails orderDetails = response.getBody().getOrderDetails();
+            if(response.getStatusCode().is2xxSuccessful() && orderDetails.getTradingSymbol().contains("CE")){
+                OrderEventData eventData = new OrderEventData();
+                eventData.setQuantity(Integer.parseInt(orderDetails.getFilledQuantity()));
+                eventData.setTransactionType(orderDetails.getTransactionType());
+                eventData.setTradingSymbol(orderDetails.getTradingSymbol());
+                PutLongOrderEvent putLongOrderEvent = new PutLongOrderEvent(this, eventData);
+                applicationEventPublisher.publishEvent(putLongOrderEvent);
+            }
         }
     }
-
 }

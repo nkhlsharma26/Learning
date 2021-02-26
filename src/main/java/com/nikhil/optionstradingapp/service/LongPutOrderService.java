@@ -83,13 +83,7 @@ public class LongPutOrderService {
         HttpEntity<PlaceOrder> placeOrderEntity = new HttpEntity<>(order, headers);
         logger.info("Going to place Long Put order at :"+ new Timestamp(System.currentTimeMillis()));
         ResponseEntity<PlaceOrderResponse> response = placeOrderService.placeOrderRequest(placeOrderUrl, placeOrderEntity);
-        if(response.getStatusCode().is2xxSuccessful()) {
-            OrderEventData eventData = new OrderEventData();
-            eventData.setQuantity(Integer.parseInt(response.getBody().getOrderDetails().getFilledQuantity()));
-            eventData.setTradingSymbol(response.getBody().getOrderDetails().getTradingSymbol());
-            ShortOrderEvent shortOrderEvent = new ShortOrderEvent(this, eventData);
-            applicationEventPublisher.publishEvent(shortOrderEvent);
-        }
+        
         return response;
     }
     private PlaceOrder prepareOrderDetails(double spotPrice, Integer quantity){
@@ -144,7 +138,14 @@ public class LongPutOrderService {
     @EventListener
     public void handleEvent(PutLongOrderEvent putLongOrderEvent){
 
-        placeLongPutOrder(putLongOrderEvent.getData().getQuantity());
+        ResponseEntity<PlaceOrderResponse> response = placeLongPutOrder(putLongOrderEvent.getData().getQuantity());
+        if(response.getStatusCode().is2xxSuccessful()) {
+            OrderEventData eventData = new OrderEventData();
+            eventData.setQuantity(Integer.parseInt(response.getBody().getOrderDetails().getFilledQuantity()));
+            eventData.setTradingSymbol(response.getBody().getOrderDetails().getTradingSymbol());
+            ShortOrderEvent shortOrderEvent = new ShortOrderEvent(this, eventData);
+            applicationEventPublisher.publishEvent(shortOrderEvent);
+        }
 
     }
 }

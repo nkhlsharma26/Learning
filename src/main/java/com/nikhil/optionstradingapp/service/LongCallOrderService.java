@@ -19,7 +19,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
 
 @Service
 public class LongCallOrderService {
@@ -57,6 +56,9 @@ public class LongCallOrderService {
     SpotPriceService spotPriceService;
     @Autowired
     SessionInfo sessionInfo;
+    @Autowired
+    SerializationService serializationService;
+
 
     @Autowired
     PlaceOrderService placeOrderService;
@@ -68,6 +70,7 @@ public class LongCallOrderService {
     private static final int lotSize = 75;
 
     private Logger logger = LogManager.getLogger(LongCallOrderService.class);
+    private int strikePrice;
 
     public ResponseEntity<PlaceOrderResponse> placeLongCallOrder(int numberOfLots){
         String placeOrderUrl = stockNoteURI+endPoint;
@@ -80,13 +83,6 @@ public class LongCallOrderService {
         HttpEntity<PlaceOrder> placeOrderEntity = new HttpEntity<>(order, headers);
         logger.info("Going to place Long Call order at :"+ new Timestamp(System.currentTimeMillis()));
         ResponseEntity<PlaceOrderResponse> response = placeOrderService.placeOrderRequest(placeOrderUrl, placeOrderEntity);
-        if(response.getStatusCode().is2xxSuccessful()){
-            OrderEventData eventData = new OrderEventData();
-            eventData.setQuantity(Integer.parseInt(response.getBody().getOrderDetails().getFilledQuantity()));
-            eventData.setTradingSymbol(response.getBody().getOrderDetails().getTradingSymbol());
-            ShortOrderEvent shortOrderEvent = new ShortOrderEvent(this, eventData);
-            applicationEventPublisher.publishEvent(shortOrderEvent);
-        }
         return response;
     }
     private PlaceOrder prepareOrderDetails(double spotPrice, int numberOfLots){
@@ -110,9 +106,7 @@ public class LongCallOrderService {
         String strikePrice = getStrikePriceForSymbolName(spotPrice);
         String targetDate = getDateForSymbolName();
         String symbolName = symbolNamePrefix+targetDate+strikePrice+symbolNameSuffixCall;
-        logger.info("Generated Strike Price: "+strikePrice);
-        logger.info("Generated target date: "+targetDate);
-        logger.info("Created symbol Name: "+symbolName);
+        this.strikePrice = Integer.valueOf(strikePrice);
         return symbolName;
     }
 
@@ -131,12 +125,6 @@ public class LongCallOrderService {
     }
 
     private String getStrikePriceForSymbolName(double spotPrice){
-        //spotPrice = 14659;
-        /*double standardDiff = 200;
-        double approxStrikePrice = spotPrice - standardDiff;
-        double diff = approxStrikePrice % 50;
-        int strikeprice = (int) (diff>=25 ? (approxStrikePrice+(50 - diff)):(approxStrikePrice-diff));*/
-
         double standardDiff = 200;
         double approxStrikePrice = spotPrice - standardDiff;
         double diff = approxStrikePrice % 100;
@@ -147,6 +135,16 @@ public class LongCallOrderService {
 
     @EventListener
     public void handleEvent(CallLongOrderEvent coe){
-        placeLongCallOrder(coe.getData().getLotSize());
+        ResponseEntity<PlaceOrderResponse> response = placeLongCallOrder(coe.getData().getLotSize());
+        if(response.getStatusCode().is2xxSuccessful()){
+            OrderData orderData = new OrderData(strikePrice, response.getBody().getOrderDetails().getTradingSymbol());
+            serializationService.serializeObject(orderData,response.getBody().getOrderDetails().getTradingSymbol());
+            //LongCallData longCallData1 = (LongCallData) serializationService.deserializeObject(response.getBody().getOrderDetails().getTradingSymbol());
+            OrderEventData eventData = new OrderEventData();
+            eventData.setQuantity(Integer.parseInt(response.getBody().getOrderDetails().getFilledQuantity()));
+            eventData.setTradingSymbol(response.getBody().getOrderDetails().getTradingSymbol());
+            ShortOrderEvent shortOrderEvent = new ShortOrderEvent(this, eventData);
+            applicationEventPublisher.publishEvent(shortOrderEvent);
+        }
     }
 }
