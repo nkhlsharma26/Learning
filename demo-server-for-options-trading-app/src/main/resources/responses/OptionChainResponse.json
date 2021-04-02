@@ -1,0 +1,38 @@
+{
+  "serverTime": "12/12/19 16:20:11",
+  "msgId": "786cdd94-2fc9-4c38-8f14-672ec64dd032",
+  "status": "Success",
+  "statusMessage": "Request successful",
+  "optionChainDetails": [
+    {
+      "tradingSymbol": "TCS20JUN2800CE",
+      "exchange": "NFO",
+      "symbol": "64790_NFO",
+      "strikePrice": "2800.00",
+      "expiryDate": "25 Jun 2020",
+      "instrument": "OPTSTK",
+      "optionType": "CE",
+      "underLyingSymbol": "TCS",
+      "spotPrice": "2045.80",
+      "lastTradedPrice": "0.00",
+      "openInterest": "0",
+      "openInterestChange": "0",
+      "oichangePer": "0",
+      "volume": "0",
+      "bestBids": [
+        {
+          "number": "2",
+          "quantity": "88",
+          "price": "1575.55"
+        }
+      ],
+      "bestAsks": [
+        {
+          "number": "2",
+          "quantity": "88",
+          "price": "1575.55"
+        }
+      ]
+    }
+  ]
+}

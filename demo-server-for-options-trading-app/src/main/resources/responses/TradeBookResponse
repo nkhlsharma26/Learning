@@ -1,0 +1,41 @@
+{
+  "serverTime": "12/12/19 16:20:11",
+  "msgId": "786cdd94-2fc9-4c38-8f14-672ec64dd032",
+  "status": "Success",
+  "statusMessage": "Request successful",
+  "tradeBookDetails": [
+    {
+      "orderNumber": "191206000000079",
+      "exchange": "BSE",
+      "tradingSymbol": "NIFTY",
+      "symbolDescription": "RELIANCE INDUSTRIES LTD.",
+      "transactionType": "BUY",
+      "productCode": "MIS",
+      "orderType": "L",
+      "orderPrice": "1560.15",
+      "quantity": "3000",
+      "disclosedQuantity": "1",
+      "triggerPrice": "0.00",
+      "marketProtection": "3",
+      "orderValidity": "DAY",
+      "orderStatus": "Complete",
+      "orderValue": "20281.95",
+      "instrumentName": "NA",
+      "orderTime": "06-Dec-2019 13:47:04",
+      "userId": "DV99999",
+      "filledQuantity": "0",
+      "unfilledQuantity": "0",
+      "exchangeConfirmationTime": "05:06:12",
+      "coverOrderPercentage": "%",
+      "exchangeOrderNumber": "1571202357797000054",
+      "tradeNumber": "195300",
+      "tradePrice": "1560.15",
+      "tradeDate": "06DEC2019",
+      "tradeTime": "02:14:47 PM",
+      "strikePrice": "800.00",
+      "optionType": "XX",
+      "lastTradePrice": "2,077.00",
+      "expiry": "NA"
+    }
+  ]
+}

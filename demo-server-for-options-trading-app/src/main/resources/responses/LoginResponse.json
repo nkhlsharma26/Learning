@@ -1,0 +1,23 @@
+{
+  "serverTime": "26/05/20 13:50:32",
+  "msgId": "c662bbd1-0b24-4e86-a3d9-8c89d7529f2c",
+  "sessionToken": "e0875f4aa3660b72ec636b0553acc7a9",
+  "accountID": "client_id",
+  "accountName": "client_name",
+  "exchangeList": [
+    "BSE",
+    "MCX",
+    "CDS",
+    "NSE"
+  ],
+  "orderTypeList": [
+    "L",
+    "MKT",
+    "SL"
+  ],
+  "productList": [
+    "CNC",
+    "CO",
+    "MIS"
+  ]
+}

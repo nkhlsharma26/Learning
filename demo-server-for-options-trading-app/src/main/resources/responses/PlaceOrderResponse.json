@@ -1,0 +1,29 @@
+{
+  "serverTime": "12/12/19 16:20:11",
+  "msgId": "786cdd94-2fc9-4c38-8f14-672ec64dd032",
+  "orderNumber": "191206000000079",
+  "status": "Success",
+  "statusMessage": "MIS Order request placed successfully",
+  "exchangeOrderStatus": "complete",
+  "rejectionReason": "--",
+  "orderDetails": {
+    "pendingQuantity": "0",
+    "avgExecutionPrice": "1193.00",
+    "orderPlacedBy": "DV9999",
+    "tradingSymbol": "RELIANCE",
+    "triggerPrice": "0.00",
+    "exchange": "BSE",
+    "totalQuantity": "3000",
+    "expiry": "--",
+    "transactionType": "BUY",
+    "productType": "MIS",
+    "orderType": "L",
+    "quantity": "3000",
+    "filledQuantity": "3000",
+    "orderPrice": "1240.00",
+    "filledPrice": "1240.0",
+    "exchangeOrderNo": "1565067682526005486",
+    "orderValidity": "DAY",
+    "orderTime": "12/12/2019 16:20:09"
+  }
+}
