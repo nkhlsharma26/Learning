@@ -54,7 +54,6 @@ public class SquareOffServiceImpl implements SquareOffOrderService {
             ResponseEntity<SquareOffResponseList> response = restTemplate.exchange(squareOffOrderUrl, HttpMethod.POST, squareOffOrderEntity, SquareOffResponseList.class);
             if(response.getStatusCodeValue() == 200){
                 logger.info("Square off successful. Details: "+response.getBody().toString());
-                //GlobalUtilities.findStockScheduler = false;
             }
             else{
                 logger.error("Something went wrong. Details: "+response.getStatusCodeValue() + "message: "+response.getBody());
