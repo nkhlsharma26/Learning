@@ -1,0 +1,7 @@
+This application helps user to place options order by calculating the spot price by looking at the strike price. The lot size is provided from the config file.
+TODO: Needed to write code for adjustments but the development was stopped as this strategy failed in many cases while back testing. 
+Also, a bash script needs to be added to help the end user run easily:
+        ECHO "Welcome to Options Trading Application"
+        cd .\options-trading-app\target\
+        java -jar options-trading-app-0.0.1-SNAPSHOT.jar
+        @pause
