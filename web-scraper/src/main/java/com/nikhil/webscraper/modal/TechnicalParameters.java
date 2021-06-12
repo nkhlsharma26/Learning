@@ -12,6 +12,7 @@ public class TechnicalParameters {
     private String sma200;
     private String rsi;
     private String scripName;
+    private String lastClose;
 
     public String getSma50() {
         return sma50;
@@ -45,6 +46,14 @@ public class TechnicalParameters {
         this.scripName = scripName;
     }
 
+    public String getLastClose() {
+        return lastClose;
+    }
+
+    public void setLastClose(String lastClose) {
+        this.lastClose = lastClose;
+    }
+
     @Override
     public String toString() {
         return "TechnicalParameters{" +
@@ -52,6 +61,7 @@ public class TechnicalParameters {
                 ", sma200='" + sma200 + '\'' +
                 ", rsi='" + rsi + '\'' +
                 ", scripName='" + scripName + '\'' +
+                ", lastClose='" + lastClose + '\'' +
                 '}';
     }
 }
