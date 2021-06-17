@@ -24,8 +24,8 @@ public class DataPollingService {
 
 
     public Map<String, SymbolInfoModel> pollData(String fromDate, String toDate, String symbol){
-        logger.info("Fetching data from server at "+ LocalDateTime.now());
-        List<String[]> pollingData = dataGatheringService.getDataForStock(fromDate, toDate, INTERVAL, symbol);
+        logger.info("Fetching data from server at "+ LocalDateTime.now()+", for symbol: " +symbol);
+        List<String[]> pollingData = dataGatheringService.getDataForStock(fromDate, toDate, INTERVAL, symbol, false);
         Map<String, SymbolInfoModel> polledData = writeDataToMap(pollingData);
         return polledData;
     }
@@ -33,9 +33,8 @@ public class DataPollingService {
     private Map<String, SymbolInfoModel> writeDataToMap(List<String[]> pollingDataList) {
         Map<String, SymbolInfoModel> dataMap = new HashMap<>();
         for(String[] pollingData : pollingDataList){
-            String[] data = pollingData[0].split(",");
-            SymbolInfoModel sp = new SymbolInfoModel(data[0], data[1],data[2],data[3], data[4]);
-            dataMap.put(data[0],sp);
+            SymbolInfoModel sp = new SymbolInfoModel(pollingData[0], pollingData[1],pollingData[2],pollingData[3], pollingData[4],"0.0");
+            dataMap.put(pollingData[0],sp);
         }
         return dataMap;
     }

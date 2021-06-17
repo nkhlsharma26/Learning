@@ -45,7 +45,7 @@ public class ModifyOrderServiceImpl implements ModifyOrderService {
         Map<String, SymbolInfoModel> polledData = dataPollingService.pollData(fromDate, toDate, boughtStock);
         ResponseEntity<TradeBookResponse> tradeBookData = tradeBookService.getOrderDetail();
 
-        if(tradeBookData.getBody() != null){
+        if(tradeBookData.getBody().getTradeBookDetails().size() > 0){
             TradeBookDetail data = Objects.requireNonNull(tradeBookData.getBody()).getTradeBookDetails().get(0);
             Map<String, String> tradeBookStock = new HashMap<>();
             tradeBookStock.put(data.getTradingSymbol(), data.getTradePrice());
@@ -53,13 +53,14 @@ public class ModifyOrderServiceImpl implements ModifyOrderService {
             if (requireModification(polledData, tradeBookStock)) {
 
                 SymbolInfoModel symbolInfoModel = polledData.entrySet().stream().findFirst().get().getValue();
-                double price = Double.parseDouble(symbolInfoModel.getClose());
-                double triggerPrice = price - ((price * 1) / 100);
+                //double price = Double.parseDouble(symbolInfoModel.getClose());
+                //double triggerPrice = price - ((price * 1) / 100);
 
                 ModifyOrderPayload modifyOrderPayload = new ModifyOrderPayload();
-                modifyOrderPayload.setPrice(String.valueOf(price));
                 modifyOrderPayload.setMarketProtection("1");
-                modifyOrderPayload.setTriggerPrice(String.valueOf(triggerPrice));
+                modifyOrderPayload.setOrderValidity(data.getOrderValidity());
+                //modifyOrderPayload.setPrice(String.valueOf(price));
+                //modifyOrderPayload.setTriggerPrice(String.valueOf(triggerPrice));
                 //modifyOrderPayload.setDisclosedQuantity(data.getDisclosedQuantity());
                 //modifyOrderPayload.setQuantity(data.getQuantity());
                 //modifyOrderPayload.setOrderType(data.getOrderType());
@@ -73,9 +74,10 @@ public class ModifyOrderServiceImpl implements ModifyOrderService {
             }
         }
         else{
-            PrepareOrderServiceImpl.csvData.remove(boughtStock);
+            StockBuyServiceImpl.csvData.remove(boughtStock);
             GlobalUtilities.findStockScheduler = true; //if there is nothing in the trade book, we will start buying stocks
             GlobalUtilities.startOrderModification = false; //stop modification service as there is nothing in the tradebook.
+            logger.info("Starting Stock buy service.\n Stopping Modification service. removing "+boughtStock+" from csvData list.");
         }
 
     }
@@ -93,6 +95,6 @@ public class ModifyOrderServiceImpl implements ModifyOrderService {
 
     private boolean requireModification(Map<String, SymbolInfoModel> polledData, Map<String, String> tradeBookStock) {
         Optional<String> key = polledData.keySet().stream().findFirst();
-        return Double.parseDouble(polledData.get(key).getClose()) > Double.parseDouble(tradeBookStock.get(key));
+        return Double.parseDouble(polledData.get(key.get()).getClose()) > Double.parseDouble(tradeBookStock.get(key.get()));
     }
 }

@@ -3,7 +3,7 @@ package com.nikhil.Intraday.equities.service;
 import com.nikhil.Intraday.equities.modal.PlaceOrder;
 import com.nikhil.Intraday.equities.modal.SymbolInfoModel;
 import com.nikhil.Intraday.equities.service.Abstraction.PlaceOrderService;
-import com.nikhil.Intraday.equities.service.Abstraction.PrepareOrderService;
+import com.nikhil.Intraday.equities.service.Abstraction.StockBuyService;
 import com.nikhil.Intraday.equities.service.Abstraction.StockSelectionService;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class PrepareOrderServiceImpl implements PrepareOrderService {
+public class StockBuyServiceImpl implements StockBuyService {
 
     @Value("${placeOrderEndPoint}")
     private String placeOrderEndPoint;
@@ -40,18 +40,23 @@ public class PrepareOrderServiceImpl implements PrepareOrderService {
     @Autowired
     PlaceOrderService placeOrderService;
 
-    private final Logger logger = LogManager.getLogger(PrepareOrderServiceImpl.class);
+    private final Logger logger = LogManager.getLogger(StockBuyServiceImpl.class);
     private static final String FILE_NAME_WITH_PATH = "src/main/resources/data/StockData.csv";
-    protected static final Map<String, SymbolInfoModel> csvData = getCsvData();
-
+    protected static Map<String, SymbolInfoModel> csvData = null;
 
     public void getScripToPlaceOrder(String fromDate, String toDate, String symbol) {
         Map<String, SymbolInfoModel> polledData = dataPollingService.pollData(fromDate, toDate, symbol);// symbol is null as we need data for all symbols in the csv
-        Map<String, SymbolInfoModel> selectedStock = stockSelectionService.selectStockToBuy(csvData, polledData);
-        if (selectedStock.size() > 0) {
-            int stockQuantity = calculateOrderQuantity(Double.parseDouble(selectedStock.values().stream().findFirst().get().getClose()));
+        if(csvData == null){
+            csvData = getCsvData();
+        }
+        SymbolInfoModel selectedStock = stockSelectionService.selectStockToBuy(csvData, polledData);
+        if (selectedStock != null) {
+            int stockQuantity = calculateOrderQuantity(Double.parseDouble(selectedStock.getClose()));
             PlaceOrder orderPayload = preparePlaceOrderPayload(selectedStock, stockQuantity);
-            placeOrderService.buyStock(orderPayload);
+            placeOrderService.buyStock(orderPayload, null);
+        }
+        else {
+            logger.info("Winner not found.");
         }
     }
 
@@ -65,14 +70,13 @@ public class PrepareOrderServiceImpl implements PrepareOrderService {
         return quantity;
     }
 
-    private PlaceOrder preparePlaceOrderPayload(Map<String, SymbolInfoModel> selectedStock, int stockQuantity) {
+    private PlaceOrder preparePlaceOrderPayload(SymbolInfoModel selectedStock, int stockQuantity) {
         PlaceOrder order  = new PlaceOrder();
 
-        Map.Entry<String, SymbolInfoModel> data = selectedStock.entrySet().iterator().next();
-        double price  = Double.parseDouble(data.getValue().getClose());
-        double triggerPrice = price - ((price*1)/100);
+        double price  = Double.parseDouble(selectedStock.getClose());
+        //double triggerPrice = price - ((price*1)/100);
 
-        order.setSymbolName(data.getKey());
+        order.setSymbolName(selectedStock.getSymbol());
         order.setExchange("NSE");
         order.setTransactionType(getOrderType());
         order.setOrderType("MKT");
@@ -81,10 +85,10 @@ public class PrepareOrderServiceImpl implements PrepareOrderService {
         order.setPrice(String.valueOf(price));
         order.setPriceType("LTP");
         order.setMarketProtection("1");
-        order.setOrderValidity("DAY");
+        order.setOrderValidity("IOC");
         order.setAfterMarketOrderFlag("NO");
         order.setProductType("MIS");
-        order.setTriggerPrice(String.valueOf(triggerPrice));
+        //order.setTriggerPrice(String.valueOf(triggerPrice));
         return order;
     }
 
@@ -98,13 +102,12 @@ public class PrepareOrderServiceImpl implements PrepareOrderService {
         Map<String, SymbolInfoModel> csvData = new HashMap<>();
         try {
 
-            reader = new CSVReader(new FileReader(PrepareOrderServiceImpl.FILE_NAME_WITH_PATH));
+            reader = new CSVReader(new FileReader(StockBuyServiceImpl.FILE_NAME_WITH_PATH));
             List<String[]> allRows = reader.readAll();
             allRows.remove(0); // remove headers
             for(String[] row : allRows){
-                String[] data = row[0].split(",");
-                SymbolInfoModel sp = new SymbolInfoModel(data[0], data[1],data[2],data[3], data[4]);
-                csvData.put(data[0],sp);
+                SymbolInfoModel sp = new SymbolInfoModel(row[0], row[1],row[2],row[3], row[4],row[5]);
+                csvData.put(row[0],sp);
             }
         } catch (IOException | CsvException e) {
            e.printStackTrace();

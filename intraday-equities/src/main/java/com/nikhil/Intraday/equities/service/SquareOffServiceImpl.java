@@ -37,7 +37,7 @@ public class SquareOffServiceImpl implements SquareOffOrderService {
 
     private final Logger logger = LogManager.getLogger(SquareOffServiceImpl.class);
 
-    @Scheduled(cron = "57 2 * * 1-5")
+    @Scheduled(cron = "0 57 2 * * 1-5")
     public void squareOffOrder(){
         String squareOffOrderUrl = stockNoteURI+END_POINT;
         ResponseEntity<TradeBookResponse> activeOrders = tradeBookService.getOrderDetail();
