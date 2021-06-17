@@ -13,15 +13,17 @@ public class SymbolInfoModel {
     private String low;
     private String close;
     private String volume;
+    private String percentage;
 
     @Override
     public String toString() {
-        return "SymbolModel{" +
+        return "SymbolInfoModel{" +
                 "symbol='" + symbol + '\'' +
                 ", high='" + high + '\'' +
                 ", low='" + low + '\'' +
                 ", close='" + close + '\'' +
                 ", volume='" + volume + '\'' +
+                ", percentage='" + percentage + '\'' +
                 '}';
     }
 }

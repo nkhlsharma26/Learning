@@ -4,7 +4,6 @@ import com.nikhil.Intraday.equities.modal.IntraDayCandleDataList;
 import com.nikhil.Intraday.equities.modal.SessionInfo;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,8 +18,9 @@ public class GatherData implements Callable<ResponseEntity<IntraDayCandleDataLis
 
     RestTemplate restTemplate;
 
-    @Value("${stocknoteURI}")
+    //@Value("${stocknoteURI}")
     private String stockNoteURI = "https://api.stocknote.com";
+    //private String stockNoteURI = "http://localhost:8081";
 
     private final Logger logger = LogManager.getLogger(GatherData.class);
     private static final String END_POINT = "/intraday/candleData";
@@ -37,6 +37,8 @@ public class GatherData implements Callable<ResponseEntity<IntraDayCandleDataLis
         this.parameterService = parameterService;
         this.restTemplate = restTemplate;
     }
+
+    GatherData(){}
 
     @Override
     public ResponseEntity<IntraDayCandleDataList> call() throws Exception {

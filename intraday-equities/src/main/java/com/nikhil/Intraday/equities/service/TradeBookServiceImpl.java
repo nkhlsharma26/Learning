@@ -10,10 +10,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
 
+@Service
 public class TradeBookServiceImpl implements TradeBookService {
     @Value("${stocknoteURI}")
     private String stockNoteURI;
@@ -33,10 +35,9 @@ public class TradeBookServiceImpl implements TradeBookService {
         headers.set("x-session-token", sessionInfo.getSessionToken());
         HttpEntity<?> tradeBookEntity = new HttpEntity<>(headers);
         logger.info("Modify order at :" + new Timestamp(System.currentTimeMillis()));
-        ResponseEntity<TradeBookResponse> response = restTemplate.exchange(tradeBookUrl, HttpMethod.PUT, tradeBookEntity, TradeBookResponse.class);
+        ResponseEntity<TradeBookResponse> response = restTemplate.exchange(tradeBookUrl, HttpMethod.GET, tradeBookEntity, TradeBookResponse.class);
         if (response.getStatusCodeValue() == 200) {
-            logger.info("Order placed successfully. Details: " + response.getBody().toString());
-            GlobalUtilities.findStockScheduler = false;
+            logger.info("Trade book data retrieved successfully. Details: " + response.getBody().toString());
         } else {
             logger.error("Something went wrong. Details: " + response.getStatusCodeValue() + "message: " + response.getBody());
         }

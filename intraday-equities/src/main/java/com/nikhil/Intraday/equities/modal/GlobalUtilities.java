@@ -7,4 +7,5 @@ public class GlobalUtilities {
     public static boolean findStockScheduler = true;
     public static boolean startOrderModification = false;
     public static String boughtStock = "";
+    public static String initialTrend = "";
 }

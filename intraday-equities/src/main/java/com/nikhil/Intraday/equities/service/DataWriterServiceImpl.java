@@ -23,14 +23,14 @@ public class DataWriterServiceImpl implements DataWriterService {
 
     private void writeDataToMap(List<String[]> data, Map<String, SymbolInfoModel> map) {
         for(String [] d : data){
-            map.put(d[0], new SymbolInfoModel(d[0],d[1],d[2],d[3],d[4]));
+            map.put(d[0], new SymbolInfoModel(d[0],d[1],d[2],d[3],d[4],d[5]));
         }
     }
 
     private void createOrUpdateCsvFile(List<String[]> s) {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter("src/main/resources/data/StockData.csv"));
-            writer.writeNext(new String[]{"SYMBOL", "HIGH", "LOW", "CLOSE", "VOLUME"});
+            writer.writeNext(new String[]{"SYMBOL", "HIGH", "LOW", "CLOSE", "VOLUME", "% CHANGE"});
             for (String[] str : s) {
                 writer.writeNext(str);
             }

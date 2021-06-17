@@ -1,0 +1,295 @@
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - Starting IntradayEquitiesApplication using Java 1.8.0_221 on Nikhil-Deepti with PID 25268 (C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes started by nkhls in C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities)
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - No active profile set, falling back to default profiles: default
+[main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer  - Tomcat initialized with port(s): 8080 (http)
+[main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext  - Root WebApplicationContext: initialization completed in 1204 ms
+[main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+[main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener  - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+[main] ERROR org.springframework.boot.SpringApplication  - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:660)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1413)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:944)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:769)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:761)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:426)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1313)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1302)
+	at com.nikhil.Intraday.equities.IntradayEquitiesApplication.main(IntradayEquitiesApplication.java:14)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1316)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1214)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:564)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1380)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1300)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:657)
+	... 21 more
+Caused by: java.lang.ExceptionInInitializerError
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:212)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1308)
+	... 32 more
+Caused by: java.lang.ArrayIndexOutOfBoundsException: 1
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.readCsvDataToMap(PrepareOrderServiceImpl.java:106)
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.getCsvData(PrepareOrderServiceImpl.java:59)
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.<clinit>(PrepareOrderServiceImpl.java:45)
+	... 39 more
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - Starting IntradayEquitiesApplication using Java 1.8.0_221 on Nikhil-Deepti with PID 16608 (C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes started by nkhls in C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities)
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - No active profile set, falling back to default profiles: default
+[main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer  - Tomcat initialized with port(s): 8080 (http)
+[main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext  - Root WebApplicationContext: initialization completed in 1099 ms
+[main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+[main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener  - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+[main] ERROR org.springframework.boot.SpringApplication  - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:660)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1413)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:944)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:769)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:761)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:426)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1313)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1302)
+	at com.nikhil.Intraday.equities.IntradayEquitiesApplication.main(IntradayEquitiesApplication.java:14)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1316)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1214)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:564)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1380)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1300)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:657)
+	... 21 more
+Caused by: java.lang.ExceptionInInitializerError
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:212)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1308)
+	... 32 more
+Caused by: java.lang.ArrayIndexOutOfBoundsException: 1
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.readCsvDataToMap(PrepareOrderServiceImpl.java:106)
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.getCsvData(PrepareOrderServiceImpl.java:59)
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.<clinit>(PrepareOrderServiceImpl.java:45)
+	... 39 more
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - Starting IntradayEquitiesApplication using Java 1.8.0_221 on Nikhil-Deepti with PID 25972 (C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes started by nkhls in C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities)
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - No active profile set, falling back to default profiles: default
+[main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer  - Tomcat initialized with port(s): 8080 (http)
+[main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext  - Root WebApplicationContext: initialization completed in 1158 ms
+[main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+[main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener  - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+[main] ERROR org.springframework.boot.SpringApplication  - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:660)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1413)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:944)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:769)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:761)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:426)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1313)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1302)
+	at com.nikhil.Intraday.equities.IntradayEquitiesApplication.main(IntradayEquitiesApplication.java:14)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1316)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1214)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:564)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1380)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1300)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:657)
+	... 21 more
+Caused by: java.lang.ExceptionInInitializerError
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:212)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1308)
+	... 32 more
+Caused by: java.lang.ArrayIndexOutOfBoundsException: 1
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.readCsvDataToMap(PrepareOrderServiceImpl.java:106)
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.getCsvData(PrepareOrderServiceImpl.java:59)
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.<clinit>(PrepareOrderServiceImpl.java:45)
+	... 39 more
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - Starting IntradayEquitiesApplication using Java 1.8.0_221 on Nikhil-Deepti with PID 15340 (C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes started by nkhls in C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities)
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - No active profile set, falling back to default profiles: default
+[main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer  - Tomcat initialized with port(s): 8080 (http)
+[main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext  - Root WebApplicationContext: initialization completed in 1120 ms
+[main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+[main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener  - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - Starting IntradayEquitiesApplication using Java 1.8.0_221 on Nikhil-Deepti with PID 11484 (C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes started by nkhls in C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities)
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - No active profile set, falling back to default profiles: default
+[main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer  - Tomcat initialized with port(s): 8080 (http)
+[main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext  - Root WebApplicationContext: initialization completed in 1129 ms
+[main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+[main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener  - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - Starting IntradayEquitiesApplication using Java 1.8.0_221 on Nikhil-Deepti with PID 26044 (C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes started by nkhls in C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities)
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - No active profile set, falling back to default profiles: default
+[main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer  - Tomcat initialized with port(s): 8080 (http)
+[main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext  - Root WebApplicationContext: initialization completed in 1202 ms
+[main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+[main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener  - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+[main] ERROR org.springframework.boot.SpringApplication  - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:660)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1413)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:944)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:769)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:761)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:426)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1313)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1302)
+	at com.nikhil.Intraday.equities.IntradayEquitiesApplication.main(IntradayEquitiesApplication.java:14)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'prepareOrderServiceImpl' defined in file [C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes\com\nikhil\Intraday\equities\service\PrepareOrderServiceImpl.class]: Instantiation of bean failed; nested exception is java.lang.ExceptionInInitializerError
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1316)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1214)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:564)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1380)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1300)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:657)
+	... 21 more
+Caused by: java.lang.ExceptionInInitializerError
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:212)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1308)
+	... 32 more
+Caused by: java.lang.ArrayIndexOutOfBoundsException: 1
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.readCsvDataToMap(PrepareOrderServiceImpl.java:106)
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.getCsvData(PrepareOrderServiceImpl.java:59)
+	at com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl.<clinit>(PrepareOrderServiceImpl.java:45)
+	... 39 more
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - Starting IntradayEquitiesApplication using Java 1.8.0_221 on Nikhil-Deepti with PID 20652 (C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes started by nkhls in C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities)
+[main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - No active profile set, falling back to default profiles: default
+[main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer  - Tomcat initialized with port(s): 8080 (http)
+[main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext  - Root WebApplicationContext: initialization completed in 1194 ms
+[main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicationStaterService': Unsatisfied dependency expressed through field 'prepareOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'prepareOrderServiceImpl': Unsatisfied dependency expressed through field 'stockSelectionService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.nikhil.Intraday.equities.service.Abstraction.StockSelectionService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+[main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener  - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+[main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field stockSelectionService in com.nikhil.Intraday.equities.service.PrepareOrderServiceImpl required a bean of type 'com.nikhil.Intraday.equities.service.Abstraction.StockSelectionService' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'com.nikhil.Intraday.equities.service.Abstraction.StockSelectionService' in your configuration.
+
+2021-06-17 09:28:18,949 INFO  [main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - Starting IntradayEquitiesApplication using Java 1.8.0_221 on Nikhil-Deepti with PID 9884 (C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities\target\classes started by nkhls in C:\Users\nkhls\Desktop\PersonalProjects\Learning\intraday-equities)
+2021-06-17 09:28:18,952 INFO  [main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - No active profile set, falling back to default profiles: default
+2021-06-17 09:28:20,268 INFO  [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer  - Tomcat initialized with port(s): 8080 (http)
+2021-06-17 09:28:20,388 INFO  [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext  - Root WebApplicationContext: initialization completed in 1367 ms
+2021-06-17 09:28:20,928 INFO  [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain  - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4441d567, org.springframework.security.web.context.SecurityContextPersistenceFilter@248deced, org.springframework.security.web.header.HeaderWriterFilter@61799544, org.springframework.web.filter.CorsFilter@3e1624c7, org.springframework.security.web.authentication.logout.LogoutFilter@6093d508, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@6bd16207, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1e9804b9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7fab4be7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@62b969c4, org.springframework.security.web.session.SessionManagementFilter@43effd89, org.springframework.security.web.access.ExceptionTranslationFilter@1603dc2f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@51dbd6e4]
+2021-06-17 09:28:20,970 INFO  [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService 'applicationTaskExecutor'
+2021-06-17 09:28:21,059 INFO  [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler  - Initializing ExecutorService 'taskScheduler'
+2021-06-17 09:28:21,098 INFO  [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer  - Tomcat started on port(s): 8080 (http) with context path ''
+2021-06-17 09:28:21,121 INFO  [main] INFO  com.nikhil.Intraday.equities.IntradayEquitiesApplication  - Started IntradayEquitiesApplication in 2.553 seconds (JVM running for 2.991)
+2021-06-17 09:28:21,128 INFO  [main] INFO  com.nikhil.Intraday.equities.service.Abstraction.AuthorizationService  - parameters passed with login request, userId:DS45079, password:Nikhil@12345, yob:1990
+2021-06-17 09:28:23,933 INFO  [main] INFO  com.nikhil.Intraday.equities.service.Abstraction.AuthorizationService  - Login Successful, AuthResponse{serverTime='17/06/21 17:54:15', msgId='61eb0c22-b67c-4810-b188-963005a7abdc', status='Success', statusMessage='Login session token generated successfully ', sessionToken='4ac1e8f726d36663bb183af0c6896d20', accountId='DS45079', accountName='SHASHANK SHRIVASTAVA', exchangeList=[BSE, BFO, CDS, NSE], orderTypeList=[MKT, L, SL], productList=[MIS, CNC, NRML]}
+2021-06-17 09:29:00,226 INFO  [scheduling-1] INFO  com.nikhil.Intraday.equities.service.QuoteServiceImpl  - Index data retrieved successfully. Details: IndexDetailResponse{serverTime='17/06/21 17:54:51', msgId='497fd8c3-26a2-4f22-a658-424692e85254', status='Success', statusMessage='Index Quote details retrieved successfully', indexName='Nifty 50', listingId=-21, lastTradedTime='2021-06-17 15:31:23.0', spotPrice=15691.4, changePercentage=-0.48, averagePrice=0.0, openValue=15648.3, highValue=15769.35, lowValue=15616.75, closeValue=15691.4, totalBuyQuantity=0, totalSellQuantity=0, totalTradedValue=0, totalTradedVolume=0, change=-76.15}
+2021-06-17 09:29:00,229 INFO  [scheduling-1] INFO  com.nikhil.Intraday.equities.service.TrendFinderServiceImpl  - Trend for today is :SELL
