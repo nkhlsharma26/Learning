@@ -1,0 +1,1 @@
+This project helps the business to filter out an equity and send notification to subscribers
