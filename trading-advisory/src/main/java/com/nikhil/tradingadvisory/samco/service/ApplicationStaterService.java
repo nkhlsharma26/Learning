@@ -1,6 +1,7 @@
 package com.nikhil.tradingadvisory.samco.service;
 
 import com.nikhil.tradingadvisory.samco.Abstraction.DataGatheringService;
+import com.nikhil.tradingadvisory.samco.Abstraction.StockSelectionService;
 import com.nikhil.tradingadvisory.samco.model.GlobalUtilities;
 import com.nikhil.tradingadvisory.samco.model.ReferenceData;
 import com.nikhil.tradingadvisory.samco.repository.ReferenceDataRepository;
@@ -25,11 +26,18 @@ public class ApplicationStaterService {
 
     @Autowired
     DataGatheringService dataGatheringService;
+
     @Autowired
-    ReferenceDataRepository referenceDataRepository;
+    ReferenceDataService referenceDataService;
 
     @Autowired
     DataPollingService dataPollingService;
+
+    @Autowired
+    TrendFinderService trendFinderService;
+
+    @Autowired
+    StockSelectionService stockSelectionService;
 
     /*@Autowired
     DataWriterService dataWriterService;
@@ -51,13 +59,18 @@ public class ApplicationStaterService {
         String fromDate = date + " " + START_TIME;
         String toDate = date + " " + END_TIME;
         String interval = "15";
-        referenceDataRepository.deleteAll();
+        //Get trend for today
+        new Thread(() -> trendFinderService.getTrendForToday()).start();
+
+        referenceDataService.deleteAll();
+        LOGGER.info("It's 9:30 AM, starting to get reference data.");
         List<ReferenceData> data = dataGatheringService.getDataForStock(fromDate, toDate, interval, null, true);// symbol name is null as we want data for all the scrip names in the csv.
-        referenceDataRepository.saveAll(data);
+        LOGGER.info("Reference data collection completed. Saving to DB!");
+        referenceDataService.saveAll(data);
         //dataWriterService.writeData(data); //write data to csv and populate map.
     }
 
-    @Scheduled(cron = "0 40/2 9 * * 1-5")
+    @Scheduled(cron = "0 35/2 9 * * 1-5")
     public void startPollingData(){
         if(isPollingServiceEnabled){
             String date = new SimpleDateFormat(DATE_PATTERN).format(new Date());
@@ -70,7 +83,7 @@ public class ApplicationStaterService {
         }
     }
 
-    /*@Scheduled(cron = "35/5 9-15 * * MON-FRI")
+    @Scheduled(cron = "35/5 9-15 * * MON-FRI")
     public void findStockToBuy(){
         boolean isScheduled = GlobalUtilities.findStockScheduler;
         if(isScheduled){
@@ -79,10 +92,11 @@ public class ApplicationStaterService {
             String endTIme = LocalTime.now().format(DateTimeFormatter.ofPattern(TIME_PATTERN))+":00";
             String fromDate = date +" "+startTime;
             String toDate = date+" "+endTIme;
-            prepareOrderService.getScripToPlaceOrder(fromDate, toDate, null);//symbol name is null as we want to get data for all the scrips in the list.
+            stockSelectionService.selectStockToBuy(fromDate, toDate);
         }
     }
 
+    /*
     @Scheduled(cron = "35/5 9-15 * * 1-5")
     public void startOrderModification(){
         boolean startOrderModification = GlobalUtilities.startOrderModification;

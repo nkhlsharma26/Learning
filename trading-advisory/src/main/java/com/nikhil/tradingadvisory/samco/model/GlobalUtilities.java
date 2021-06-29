@@ -8,4 +8,5 @@ public class GlobalUtilities {
     public static Boolean isPollingServiceEnabled = true;
     public static boolean startOrderModification = false;
     public static String boughtStock = "";
+    public static String initialTrend;
 }

@@ -1,6 +1,7 @@
 package com.nikhil.tradingadvisory.samco.repository;
 
 import com.nikhil.tradingadvisory.samco.model.ReferenceData;
+import javafx.util.Pair;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
