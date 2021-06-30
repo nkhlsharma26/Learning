@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
 
         // send confirmation token
         String link = serverUrl+"/confirm/" + token;
-        emailSender.sendEmail(
+        emailSender.sendRegistrationEmail(
                 signUpRequest.getEmail(),
                 emailSender.buildConfirmationEmail(signUpRequest.getFullName(), link));
 

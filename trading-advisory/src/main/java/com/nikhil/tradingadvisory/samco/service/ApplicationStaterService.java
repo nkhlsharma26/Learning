@@ -1,10 +1,10 @@
 package com.nikhil.tradingadvisory.samco.service;
 
 import com.nikhil.tradingadvisory.samco.Abstraction.DataGatheringService;
+import com.nikhil.tradingadvisory.samco.Abstraction.ModifyOrderService;
 import com.nikhil.tradingadvisory.samco.Abstraction.StockSelectionService;
 import com.nikhil.tradingadvisory.samco.model.GlobalUtilities;
 import com.nikhil.tradingadvisory.samco.model.ReferenceData;
-import com.nikhil.tradingadvisory.samco.repository.ReferenceDataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +44,9 @@ public class ApplicationStaterService {
 
     @Autowired
     PrepareOrderService prepareOrderService;
-
+*/
     @Autowired
-    ModifyOrderService modifyOrderService;*/
+    ModifyOrderService modifyOrderService;
 
     public static final String START_TIME = "09:30:00";
     public static final String END_TIME = "09:45:00";
@@ -83,7 +83,7 @@ public class ApplicationStaterService {
         }
     }
 
-    @Scheduled(cron = "35/5 9-15 * * MON-FRI")
+    @Scheduled(cron = "0 35/5 9-15 * * MON-FRI")
     public void findStockToBuy(){
         boolean isScheduled = GlobalUtilities.findStockScheduler;
         if(isScheduled){
@@ -96,8 +96,8 @@ public class ApplicationStaterService {
         }
     }
 
-    /*
-    @Scheduled(cron = "35/5 9-15 * * 1-5")
+
+    @Scheduled(cron = "0 35/5 9-15 * * 1-5")
     public void startOrderModification(){
         boolean startOrderModification = GlobalUtilities.startOrderModification;
         String boughtStock = GlobalUtilities.boughtStock;
@@ -109,5 +109,5 @@ public class ApplicationStaterService {
             String toDate = date+" "+endTIme;
             modifyOrderService.modifyOrder(fromDate, toDate, boughtStock);
         }
-    }*/
+    }
 }

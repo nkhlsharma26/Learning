@@ -35,7 +35,7 @@ public class WebScraperServiceImpl implements WebScraperService {
         ResponseEntity<List<TechnicalParameters>> response = null;
         try{
             HttpHeaders headers = new HttpHeaders();
-            headers.set("x-session-token", sessionInfo.getSessionToken());
+            //headers.set("x-session-token", sessionInfo.getSessionToken());
             HttpEntity<?> entity = new HttpEntity<>(headers);
             response = restTemplate.exchange(reqUrl, HttpMethod.GET, entity, new ParameterizedTypeReference<List<TechnicalParameters>>(){});
             if (response.getStatusCodeValue() == 200) {
@@ -50,3 +50,4 @@ public class WebScraperServiceImpl implements WebScraperService {
         return response != null ? response.getBody() : new ArrayList<>();
     }
 }
+

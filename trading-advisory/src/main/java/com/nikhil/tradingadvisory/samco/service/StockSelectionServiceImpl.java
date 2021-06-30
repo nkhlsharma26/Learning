@@ -1,11 +1,12 @@
 package com.nikhil.tradingadvisory.samco.service;
 
+import com.nikhil.tradingadvisory.emailService.EmailService;
 import com.nikhil.tradingadvisory.samco.Abstraction.StockSelectionService;
 import com.nikhil.tradingadvisory.samco.Abstraction.WebScraperService;
 import com.nikhil.tradingadvisory.samco.model.GlobalUtilities;
+import com.nikhil.tradingadvisory.samco.model.PlaceOrder;
 import com.nikhil.tradingadvisory.samco.model.ReferenceData;
 import com.nikhil.tradingadvisory.samco.model.TechnicalParameters;
-import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class StockSelectionServiceImpl implements StockSelectionService {
     @Autowired
     DataPollingService dataPollingService;
 
+    @Autowired
+    EmailService emailService;
+
     @Value("${volumeThreshold}")
     private int volumeThreshold;
 
@@ -36,7 +40,9 @@ public class StockSelectionServiceImpl implements StockSelectionService {
     public ReferenceData selectStockToBuy(String fromDate, String toDate) {
         Map<String, ReferenceData> referenceData = referenceDataService.getReferenceData().stream().collect(Collectors.toMap(ReferenceData::getSymbol, Function.identity()));
         Map<String, ReferenceData> polledData = dataPollingService.pollData(fromDate, toDate, "5", GlobalUtilities.initialTrend);
-        return findWinner(referenceData, polledData);
+        ReferenceData winner = findWinner(referenceData, polledData);
+        emailService.sendSuggestionMail(winner);
+        return winner;
     }
 
     private ReferenceData findWinner(Map<String, ReferenceData> referenceData, Map<String, ReferenceData> polledData) {
@@ -65,7 +71,7 @@ public class StockSelectionServiceImpl implements StockSelectionService {
     private Map<String, ReferenceData> findBuySideWinner(Map<String, ReferenceData> refData, Map<String, ReferenceData> polledData) {
         Map<String, ReferenceData> selectedScrips = new HashMap<>();
         polledData.forEach((k, v) -> {
-            if(Double.parseDouble(v.getHigh()) > Double.parseDouble(refData.get(k).getHigh())){
+            if(refData.containsKey(k) && Double.parseDouble(v.getHigh()) > Double.parseDouble(refData.get(k).getHigh())){
                 if(Double.parseDouble(v.getHigh()) > Double.parseDouble(refData.get(k).getPreviousDayData().getHigh()))
                     selectedScrips.put(k, v);
             }
@@ -77,8 +83,10 @@ public class StockSelectionServiceImpl implements StockSelectionService {
 
         if(techDetails.size() > 0) {
             for (TechnicalParameters tp : techDetails) {
-                if ((Double.parseDouble(tp.getRsi()) > 60) && (Double.parseDouble(tp.getSma50()) > Double.parseDouble(tp.getSma200())) && (Double.parseDouble(tp.getSma50()) > Double.parseDouble(selectedScrips.get(tp.getScripName()).getClose())) &&
-                        (Double.parseDouble(tp.getSma200()) > Double.parseDouble(selectedScrips.get(tp.getScripName()).getClose()))) {
+                if ((Double.parseDouble(tp.getRsi()) > 60)
+                        && (Double.parseDouble(tp.getSma20()) > Double.parseDouble(tp.getSma50()))
+                        && (Double.parseDouble(tp.getSma20()) > Double.parseDouble(tp.getSma200())))
+                {
                     potentialWinners.put(tp.getScripName(), selectedScrips.get(tp.getScripName()));
                 } else {
                     scripsToReject.add(tp);
@@ -100,7 +108,7 @@ public class StockSelectionServiceImpl implements StockSelectionService {
 
         Map<String, ReferenceData> selectedScrips = new HashMap<>();
         polledData.forEach((k, v) -> {
-            if(Double.parseDouble(v.getLow()) < Double.parseDouble(refData.get(k).getLow())){
+            if(refData.containsKey(k) && Double.parseDouble(v.getLow()) < Double.parseDouble(refData.get(k).getLow())){
                 if(Double.parseDouble(v.getLow()) < Double.parseDouble(refData.get(k).getPreviousDayData().getLow()))
                     selectedScrips.put(k, v);
             }
@@ -112,10 +120,9 @@ public class StockSelectionServiceImpl implements StockSelectionService {
 
         if(techDetails.size() > 0) {
             for (TechnicalParameters tp : techDetails) {
-                if ((Double.parseDouble(tp.getRsi()) > 60)
-                        && (Double.parseDouble(tp.getSma50()) > Double.parseDouble(tp.getSma200()))
-                        && (Double.parseDouble(tp.getSma50()) > Double.parseDouble(selectedScrips.get(tp.getScripName()).getClose()))
-                        && (Double.parseDouble(tp.getSma200()) > Double.parseDouble(selectedScrips.get(tp.getScripName()).getClose())))
+                if ((Double.parseDouble(tp.getRsi()) < 60)
+                        && (Double.parseDouble(tp.getSma20()) < Double.parseDouble(tp.getSma50()))
+                        && (Double.parseDouble(tp.getSma20()) < Double.parseDouble(tp.getSma200())))
                 {
                     potentialWinners.put(tp.getScripName(), selectedScrips.get(tp.getScripName()));
                 } else {

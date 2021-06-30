@@ -14,4 +14,6 @@ public interface ReferenceDataRepository extends JpaRepository<ReferenceData, St
 
     @Query(value = "select symbol from reference_data where percentage <= 0", nativeQuery = true)
     List<String> getScripsWithNegativeOrZeroPercentageChange();
+
+    void deleteBySymbol(String boughtStock);
 }

@@ -34,4 +34,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query(value = "UPDATE users a SET a.samco_user_details_id = ?2 WHERE a.username = ?1",nativeQuery = true)
     void updateSamcoDetailsId(String username, Long id);
+
+    @Query(value = "select email from users where is_active = true",nativeQuery = true)
+    String[] getEmailsForRegisteredUser();
 }

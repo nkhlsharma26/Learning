@@ -8,6 +8,7 @@ import lombok.*;
 @Builder
 @ToString
 public class TechnicalParameters {
+    private String sma20;
     private String sma50;
     private String sma200;
     private String rsi;

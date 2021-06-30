@@ -33,4 +33,8 @@ public class ReferenceDataService {
     public List<String> getStocksWithNegativePercentageChange() {
         return referenceDataRepository.getScripsWithNegativeOrZeroPercentageChange();
     }
+
+    public void deleteBySymbol(String boughtStock) {
+        referenceDataRepository.deleteBySymbol(boughtStock);
+    }
 }
