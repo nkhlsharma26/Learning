@@ -1,0 +1,45 @@
+<div class="container col-lg-6">
+    <h1 class="text-center">Registration</h1>
+    <div class="card justify-content-center align-items-center">
+      <div class="card-body">
+        <form class="form-group">
+        <table>
+            <tr>
+                  <td align="left"><div class="alert alert-warning" *ngIf='invalidRegistration'>{{errorMessage}}</div></td>
+                  <td align="left"><div class="alert alert-success" *ngIf='registrationSuccess'>{{successMessage}}</div></td>
+            </tr>
+
+            <tr>
+                  <td align="left">Full Name:</td>
+                  <td align="left"><input type="text" class="form-control" id="fullName" [(ngModel)]="fullName" placeholder="Enter Full Name" name="fullName"></td>
+            </tr>
+
+            <tr>
+                  <td align="left">Email:</td>
+                  <td align="left"><input type="email" class="form-control" id="email" [(ngModel)]="email" placeholder="Enter email"
+                        name="email"></td>
+            </tr>
+
+            <tr>
+                  <td align="left">Password:</td>
+                  <td align="left"><input type="password" class="form-control" id="password" [(ngModel)]="password" placeholder="Enter password"
+                        name="password"></td>
+            </tr>
+
+            <tr>
+                  <td align="left">Confirm Password:</td>
+                  <td align="left"><input type="text" class="form-control" [(ngModel)]="confirmPassword" id="confirmPassword" placeholder="Confirm password"
+                        name="confirmPassword"></td>
+            </tr>
+            <br>
+            <tr>
+                  <td align="right"><button (click)=handleRegistration() class="btn btn-success ">Register</button></td>
+                  
+            </tr>
+          
+          
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
