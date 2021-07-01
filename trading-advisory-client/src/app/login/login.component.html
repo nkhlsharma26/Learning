@@ -1,0 +1,30 @@
+<div class="container col-lg-6">
+      <div class="card justify-content-center align-items-center" style="margin-top: 2%;">  
+        <h1 class="text-center">Login</h1>
+      </div>
+      <br>
+    <div class="card justify-content-center align-items-center">
+      <div class="card-body">
+        <form class="form-group">
+            <div class="alert alert-warning" *ngIf='invalidLogin'>{{errorMessage}}</div>
+            <div class="alert alert-success" *ngIf='loginSuccess'>{{successMessage}}</div>
+        <table>
+              <tr>
+                    <td>User Name :</td>
+                    <td><input type="text" class="form-control" id="usernameOrEmail" [(ngModel)]="usernameOrEmail" placeholder="Enter User Name"
+                        name="usernameOrEmail"></td>
+              </tr>
+              <tr>
+                  <td>Password :</td>
+                  <td><input type="password" class="form-control" [(ngModel)]="password" id="password" placeholder="Enter password"
+                        name="password"></td>
+            </tr>
+      </table>
+      <br>
+      <div style="margin-left: 30%;">
+          <button (click)=handleLogin() class="btn btn-success">Login</button>
+      </div>
+        </form>
+      </div>
+    </div>
+  </div>

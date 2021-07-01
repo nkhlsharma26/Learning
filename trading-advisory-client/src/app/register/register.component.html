@@ -8,12 +8,9 @@
       </div>
       <div class="card-body"> 
         <form class="form-group needs-validation" novalidate oninput='confirmPassword.setCustomValidity(confirmPassword.value != password.value ? true : false)'>
-        <table>
-            <tr>
-                  <td align="left"><div class="alert alert-warning" *ngIf='invalidRegistration'>{{errorMessage}}</div></td>
-                  <td align="left"><div class="alert alert-success" *ngIf='registrationSuccess'>{{successMessage}}</div></td>
-            </tr>
-
+            <div class="alert alert-warning" *ngIf='invalidRegistration'>{{errorMessage}}</div>
+            <div class="alert alert-success" *ngIf='registrationSuccess'>{{successMessage}}</div>
+            <table>
             <tr>
                   <td align="left">Full Name:</td>
                   <td align="left"><input type="text" class="form-control" id="fullName" [(ngModel)]="fullName" placeholder="Enter Full Name" name="fullName"></td>
