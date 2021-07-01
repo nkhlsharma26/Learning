@@ -1,8 +1,13 @@
 <div class="container col-lg-6">
     <h1 class="text-center">Registration</h1>
     <div class="card justify-content-center align-items-center">
-      <div class="card-body">
-        <form class="form-group">
+          <div *ngIf="loading" class = "loader-container d-flex justify-content-center">
+          <div class="spinner-border text-primary" style="margin-top:12%;" role="status">
+            <span class="sr-only"></span>
+          </div> 
+      </div>
+      <div class="card-body"> 
+        <form class="form-group needs-validation" novalidate oninput='confirmPassword.setCustomValidity(confirmPassword.value != password.value ? true : false)'>
         <table>
             <tr>
                   <td align="left"><div class="alert alert-warning" *ngIf='invalidRegistration'>{{errorMessage}}</div></td>
@@ -28,12 +33,12 @@
 
             <tr>
                   <td align="left">Confirm Password:</td>
-                  <td align="left"><input type="text" class="form-control" [(ngModel)]="confirmPassword" id="confirmPassword" placeholder="Confirm password"
+                  <td align="left"><input type="password" class="form-control" [(ngModel)]="confirmPassword" id="confirmPassword" placeholder="Confirm password"
                         name="confirmPassword"></td>
             </tr>
             <br>
             <tr>
-                  <td align="right"><button (click)=handleRegistration() class="btn btn-success ">Register</button></td>
+                  <td align="right"><button  [disabled]="clicked" (click)=handleRegistration() class="btn btn-success ">Register</button></td>
                   
             </tr>
           

@@ -6,17 +6,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
+import { RegisterResultComponent } from './register/register-result/register-result.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
+    RegisterResultComponent,
   ],
   imports: [
+    
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

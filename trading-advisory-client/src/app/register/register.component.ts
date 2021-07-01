@@ -17,6 +17,8 @@ export class RegisterComponent implements OnInit {
   successMessage: string;
   invalidRegistration = false;
   registrationSuccess = false;
+  clicked = false;
+  loading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,14 +29,40 @@ export class RegisterComponent implements OnInit {
   }
 
   handleRegistration() {
-     this.registrationService.registrationService(this.fullName, this.password, this.email, this.email).subscribe((result)=> {
-     this.invalidRegistration = false;
-     this.registrationSuccess = true;
-     this.successMessage = 'Registration Successful.';
-     this.router.navigate(['/hello-world']);
-     }, () => {
-       this.invalidRegistration = true;
-       this.registrationSuccess = false;
-     });
+     this.clicked = true;
+     this.loading = true;
+     if(this.validatePasswordAndEmail(this.password, this.confirmPassword, this.email)){
+      this.registrationService.registrationService(this.fullName, this.password, this.email, this.email).subscribe((result)=> {
+        this.loading = false;
+      this.invalidRegistration = false;
+      this.registrationSuccess = true;
+      this.successMessage = 'Registration Successful.';
+      this.router.navigate(['/app-register-result']);
+      }, () => {
+        this.clicked = false;
+        this.loading = false;
+        this.invalidRegistration = true;
+        this.registrationSuccess = false;
+      });
+     }
+     
+  }
+
+  validatePasswordAndEmail(password: String, confirmPassword: String, email: String): boolean{
+      if(password != confirmPassword){
+        this.invalidRegistration = true;
+        this.loading = false;
+        this.errorMessage = 'Password and confirm password do not match!'
+        this.clicked = false;
+        return false;
+      }
+      if(email.length<=0 || !email.includes(".com") || !email.includes("@")){
+        this.invalidRegistration = true;
+        this.loading = false;
+        this.errorMessage = 'Email is not valid!'
+        this.clicked = false;
+        return false;
+      }
+      return true;
   }
 }
