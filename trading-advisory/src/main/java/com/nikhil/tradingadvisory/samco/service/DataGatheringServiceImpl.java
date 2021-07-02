@@ -83,10 +83,12 @@ public class DataGatheringServiceImpl implements DataGatheringService {
                 }
                 IntraDayCandleData intraDayCandleData = getCandleDataForScrip(symbol, samcoToken, fromDate, toDate, interval);
                 Double percentageChange = 0.0;
+                PreviousDayData previousDayData = null;
                 if(referenceData){
                     percentageChange = getPercentageChange(symbol, samcoToken);
+                    previousDayData = getPreviousDayDataForSymbol(symbol, samcoToken);
                 }
-                PreviousDayData previousDayData = getPreviousDayDataForSymbol(symbol, samcoToken);
+
                 ReferenceData rData = ReferenceData.builder()
                         .high(intraDayCandleData.getHigh())
                         .low(intraDayCandleData.getLow())

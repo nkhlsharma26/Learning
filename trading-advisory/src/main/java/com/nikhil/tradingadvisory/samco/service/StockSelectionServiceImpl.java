@@ -4,7 +4,6 @@ import com.nikhil.tradingadvisory.emailService.EmailService;
 import com.nikhil.tradingadvisory.samco.Abstraction.StockSelectionService;
 import com.nikhil.tradingadvisory.samco.Abstraction.WebScraperService;
 import com.nikhil.tradingadvisory.samco.model.GlobalUtilities;
-import com.nikhil.tradingadvisory.samco.model.PlaceOrder;
 import com.nikhil.tradingadvisory.samco.model.ReferenceData;
 import com.nikhil.tradingadvisory.samco.model.TechnicalParameters;
 import org.slf4j.Logger;
@@ -41,7 +40,9 @@ public class StockSelectionServiceImpl implements StockSelectionService {
         Map<String, ReferenceData> referenceData = referenceDataService.getReferenceData().stream().collect(Collectors.toMap(ReferenceData::getSymbol, Function.identity()));
         Map<String, ReferenceData> polledData = dataPollingService.pollData(fromDate, toDate, "5", GlobalUtilities.initialTrend);
         ReferenceData winner = findWinner(referenceData, polledData);
-        emailService.sendSuggestionMail(winner);
+        if(winner != null){
+            emailService.sendSuggestionMail(winner);
+        }
         return winner;
     }
 

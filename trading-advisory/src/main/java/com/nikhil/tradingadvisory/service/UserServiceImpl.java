@@ -158,8 +158,8 @@ public class UserServiceImpl implements UserService {
             try {
                 PublicKey publicKey = encryptorDecryptor.getPublic("src/main/resources/KeyPair/publicKey");
                 String password = details.getPassword();
-                String encryptedPassword = encryptorDecryptor.encryptText(password, publicKey);
-                details.setPassword(encryptedPassword);
+                /*String encryptedPassword = encryptorDecryptor.encryptText(password, publicKey);
+                details.setPassword(encryptedPassword);*/
             }catch (Exception e) {
                 e.printStackTrace();
             }

@@ -84,9 +84,9 @@ public class SamcoAuthServiceImpl implements SamcoAuthService {
             SamcoUserDetails userDetails = optional.get();
             PrivateKey privateKey = null;
             try {
-                privateKey = encryptorDecryptor.getPrivate("src/main/resources/KeyPair/privateKey");
+                /*privateKey = encryptorDecryptor.getPrivate("src/main/resources/KeyPair/privateKey");
                 String password = encryptorDecryptor.decryptText(userDetails.getPassword(), privateKey);
-                userDetails.setPassword(password);
+                userDetails.setPassword(password);*/
                 samcoToken = authorizeUser(userDetails);
             } catch (Exception e) {
                 e.printStackTrace();

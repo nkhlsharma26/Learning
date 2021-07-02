@@ -70,7 +70,7 @@ public class ApplicationStaterService {
         //dataWriterService.writeData(data); //write data to csv and populate map.
     }
 
-    @Scheduled(cron = "0 35/2 9 * * 1-5")
+    @Scheduled(cron = "0 35/5 9 * * 1-5")
     public void startPollingData(){
         if(isPollingServiceEnabled){
             String date = new SimpleDateFormat(DATE_PATTERN).format(new Date());
