@@ -71,7 +71,24 @@ public class TrendFinderService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-session-token", samcoToken);
         HttpEntity<?> indexQuoteEntity = new HttpEntity<>(headers);
-        ResponseEntity<IndexDetailResponse> response = restTemplate.exchange(uri, HttpMethod.GET, indexQuoteEntity, IndexDetailResponse.class);
+        ResponseEntity<IndexDetailResponse> response = null;
+        try{
+            response = restTemplate.exchange(uri, HttpMethod.GET, indexQuoteEntity, IndexDetailResponse.class);
+        }
+        catch (Exception e)
+        {
+            LOGGER.info(e.getMessage());
+            if(e.getMessage().contains("Session Expired. Please login again.")){
+                LOGGER.info("Session Expired. Retrying....");
+                LOGGER.info("Getting new token....");
+                String newToken = samcoAuthService.loginUser(adminUser);
+                HttpHeaders newHeaders = new HttpHeaders();
+                newHeaders.set("x-session-token", newToken);
+                HttpEntity<?> newEntity = new HttpEntity<>(newHeaders);
+                response = restTemplate.exchange(uri, HttpMethod.GET, newEntity, IndexDetailResponse.class);
+            }
+        }
+
         if (response.getStatusCodeValue() == 200) {
             LOGGER.info("Index data retrieved successfully. Details: " + response.getBody().toString());
         } else {

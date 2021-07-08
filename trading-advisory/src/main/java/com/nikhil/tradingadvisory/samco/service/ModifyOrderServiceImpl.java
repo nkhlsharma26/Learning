@@ -98,6 +98,9 @@ public class ModifyOrderServiceImpl implements ModifyOrderService {
             ResponseEntity<ModifyOrderResponse> response = null;
             try{
                 UserTokenModel userToken = userTokenRepository.getById(entity.getUserId());
+                if(userToken == null || userToken.getToken().isEmpty() || userToken.getToken() == null){
+                    userToken.setToken(samcoAuthService.loginUser(entity.getUserId()));
+                }
                 headers.set("x-session-token", userToken.getToken());
                 HttpEntity<ModifyOrderPayload> modifyOrderEntity = new HttpEntity<>(modifyOrderPayload, headers);
                 LOGGER.info("Modifying order at :"+ new Timestamp(System.currentTimeMillis()));
@@ -105,15 +108,15 @@ public class ModifyOrderServiceImpl implements ModifyOrderService {
 
             }
             catch (HttpServerErrorException.InternalServerError e){
-                if(e.getMessage().contains("Session Expired. Please login again."))
-                {
-                    LOGGER.info("Session had expired. Trying to login and attempting order modification again.");
-                    String token = samcoAuthService.loginUser(entity.getUserId());
-                    headers.set("x-session-token", token);
-                    HttpEntity<ModifyOrderPayload> modifyOrderEntity = new HttpEntity<>(modifyOrderPayload, headers);
-                    LOGGER.info("Modifying order at :"+ new Timestamp(System.currentTimeMillis()));
-                    response = restTemplate.exchange(modifyOrderUrl, HttpMethod.PUT, modifyOrderEntity, ModifyOrderResponse.class, orderNumber);
-
+                LOGGER.info(e.getMessage());
+                if(e.getMessage().contains("Session Expired. Please login again.")){
+                    LOGGER.info("Session Expired. Retrying....");
+                    LOGGER.info("Getting new token....");
+                    String newToken = samcoAuthService.loginUser(entity.getUserId());
+                    HttpHeaders newHeaders = new HttpHeaders();
+                    newHeaders.set("x-session-token", newToken);
+                    HttpEntity<ModifyOrderPayload> newEntity = new HttpEntity<>(newHeaders);
+                    response = restTemplate.exchange(modifyOrderUrl, HttpMethod.GET, newEntity, ModifyOrderResponse.class);
                 }
             }
             if(response != null){

@@ -93,7 +93,11 @@ public class SamcoAuthServiceImpl implements SamcoAuthService {
             }
 
             UserTokenModel tokenModel = new UserTokenModel(userId, samcoToken);
+            if(userTokenRepository.existsById(userId)){
+                userTokenRepository.deleteById(userId);
+            }
             userTokenRepository.save(tokenModel);
+
         }
         return samcoToken;
     }

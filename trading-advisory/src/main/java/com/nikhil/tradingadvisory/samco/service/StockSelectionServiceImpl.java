@@ -34,13 +34,17 @@ public class StockSelectionServiceImpl implements StockSelectionService {
     @Value("${volumeThreshold}")
     private int volumeThreshold;
 
+    @Value("${technicalAnalysisActive:true}")
+    private boolean technicalAnalysisActive;
+
     private final static Logger LOGGER = LoggerFactory.getLogger(StockSelectionServiceImpl.class);
 
     public ReferenceData selectStockToBuy(String fromDate, String toDate) {
         Map<String, ReferenceData> referenceData = referenceDataService.getReferenceData().stream().collect(Collectors.toMap(ReferenceData::getSymbol, Function.identity()));
         Map<String, ReferenceData> polledData = dataPollingService.pollData(fromDate, toDate, "5", GlobalUtilities.initialTrend);
         ReferenceData winner = findWinner(referenceData, polledData);
-        if(winner != null){
+        if (winner != null) {
+            LOGGER.info("********* Sending email with payload:"+ winner);
             emailService.sendSuggestionMail(winner);
         }
         return winner;
@@ -72,35 +76,39 @@ public class StockSelectionServiceImpl implements StockSelectionService {
     private Map<String, ReferenceData> findBuySideWinner(Map<String, ReferenceData> refData, Map<String, ReferenceData> polledData) {
         Map<String, ReferenceData> selectedScrips = new HashMap<>();
         polledData.forEach((k, v) -> {
-            if(refData.containsKey(k) && Double.parseDouble(v.getHigh()) > Double.parseDouble(refData.get(k).getHigh())){
-                if(Double.parseDouble(v.getHigh()) > Double.parseDouble(refData.get(k).getPreviousDayData().getHigh()))
+            if (refData.containsKey(k) && Double.parseDouble(v.getHigh()) > Double.parseDouble(refData.get(k).getHigh())) {
+                if (Double.parseDouble(v.getHigh()) > Double.parseDouble(refData.get(k).getPreviousDayData().getHigh()))
                     selectedScrips.put(k, v);
             }
         });
 
         Map<String, ReferenceData> potentialWinners = new HashMap<>();
-        List<TechnicalParameters> techDetails = webScraperService.getTechnicalParameters(new ArrayList<>(selectedScrips.keySet()));
         List<TechnicalParameters> scripsToReject = new ArrayList<>();
 
-        if(techDetails.size() > 0) {
-            for (TechnicalParameters tp : techDetails) {
-                if ((Double.parseDouble(tp.getRsi()) > 60)
-                        && (Double.parseDouble(tp.getSma20()) > Double.parseDouble(tp.getSma50()))
-                        && (Double.parseDouble(tp.getSma20()) > Double.parseDouble(tp.getSma200())))
-                {
-                    potentialWinners.put(tp.getScripName(), selectedScrips.get(tp.getScripName()));
-                } else {
-                    scripsToReject.add(tp);
+        if(technicalAnalysisActive){
+            List<TechnicalParameters> techDetails = webScraperService.getTechnicalParameters(new ArrayList<>(selectedScrips.keySet()));
+            if (techDetails.size() > 0) {
+                for (TechnicalParameters tp : techDetails) {
+                    if ((Double.parseDouble(tp.getRsi()) > 60)
+                            && (Double.parseDouble(tp.getSma20()) > Double.parseDouble(tp.getSma50()))
+                            && (Double.parseDouble(tp.getSma20()) > Double.parseDouble(tp.getSma200()))) {
+                        potentialWinners.put(tp.getScripName(), selectedScrips.get(tp.getScripName()));
+                    } else {
+                        scripsToReject.add(tp);
+                    }
                 }
+            } else {
+                LOGGER.info("Unable to get Technical details. Rejecting all the stocks");
+                polledData.forEach((k, v) -> LOGGER.info(k));
+            }
+
+            if (scripsToReject.size() > 0) {
+                scripsToReject.forEach(s -> LOGGER.info("We are rejecting following scrip based off of technical analysis:" + s.toString()));
             }
         }
         else{
-            LOGGER.info("Unable to get Technical details. Rejecting all the stocks");
-            polledData.forEach((k, v) -> LOGGER.info(k));
-        }
-
-        if(scripsToReject.size() > 0){
-            scripsToReject.forEach( s -> LOGGER.info("We are rejecting following scrip based off of technical analysis:" +s.toString()));
+            LOGGER.info("Technical analysis has been turned off.");
+            potentialWinners = selectedScrips;
         }
         return potentialWinners;
     }
@@ -109,35 +117,39 @@ public class StockSelectionServiceImpl implements StockSelectionService {
 
         Map<String, ReferenceData> selectedScrips = new HashMap<>();
         polledData.forEach((k, v) -> {
-            if(refData.containsKey(k) && Double.parseDouble(v.getLow()) < Double.parseDouble(refData.get(k).getLow())){
-                if(Double.parseDouble(v.getLow()) < Double.parseDouble(refData.get(k).getPreviousDayData().getLow()))
+            if (refData.containsKey(k) && Double.parseDouble(v.getLow()) < Double.parseDouble(refData.get(k).getLow())) {
+                if (Double.parseDouble(v.getLow()) < Double.parseDouble(refData.get(k).getPreviousDayData().getLow()))
                     selectedScrips.put(k, v);
             }
         });
 
         Map<String, ReferenceData> potentialWinners = new HashMap<>();
-        List<TechnicalParameters> techDetails = webScraperService.getTechnicalParameters(new ArrayList<>(selectedScrips.keySet()));
         List<TechnicalParameters> scripsToReject = new ArrayList<>();
 
-        if(techDetails.size() > 0) {
-            for (TechnicalParameters tp : techDetails) {
-                if ((Double.parseDouble(tp.getRsi()) < 60)
-                        && (Double.parseDouble(tp.getSma20()) < Double.parseDouble(tp.getSma50()))
-                        && (Double.parseDouble(tp.getSma20()) < Double.parseDouble(tp.getSma200())))
-                {
-                    potentialWinners.put(tp.getScripName(), selectedScrips.get(tp.getScripName()));
-                } else {
-                    scripsToReject.add(tp);
+        if(technicalAnalysisActive){
+            List<TechnicalParameters> techDetails = webScraperService.getTechnicalParameters(new ArrayList<>(selectedScrips.keySet()));
+            if (techDetails.size() > 0) {
+                for (TechnicalParameters tp : techDetails) {
+                    if ((Double.parseDouble(tp.getRsi()) < 60)
+                            && (Double.parseDouble(tp.getSma20()) < Double.parseDouble(tp.getSma50()))
+                            && (Double.parseDouble(tp.getSma20()) < Double.parseDouble(tp.getSma200()))) {
+                        potentialWinners.put(tp.getScripName(), selectedScrips.get(tp.getScripName()));
+                    } else {
+                        scripsToReject.add(tp);
+                    }
                 }
+            } else {
+                LOGGER.info("Unable to get Technical details. Rejecting all the stocks");
+                polledData.forEach((k, v) -> LOGGER.info(k));
+            }
+
+            if (scripsToReject.size() > 0) {
+                scripsToReject.forEach(s -> LOGGER.info("We are rejecting following scrip based off of technical analysis:" + s.toString()));
             }
         }
         else{
-            LOGGER.info("Unable to get Technical details. Rejecting all the stocks");
-            polledData.forEach((k, v) -> LOGGER.info(k));
-        }
-
-        if(scripsToReject.size() > 0){
-            scripsToReject.forEach( s -> LOGGER.info("We are rejecting following scrip based off of technical analysis:" +s.toString()));
+            LOGGER.info("Technical analysis has been turned off.");
+            potentialWinners = selectedScrips;
         }
 
         return potentialWinners;

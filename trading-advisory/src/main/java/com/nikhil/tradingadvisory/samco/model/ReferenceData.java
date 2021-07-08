@@ -12,7 +12,8 @@ import javax.persistence.*;
 public class ReferenceData {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
     private String symbol;
     private String high;
@@ -22,8 +23,7 @@ public class ReferenceData {
     private Double percentage = 0.0;
     private String volume;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "referenceData")
     private PreviousDayData previousDayData;
 
     @Override

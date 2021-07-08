@@ -155,14 +155,14 @@ public class UserServiceImpl implements UserService {
         if(sessionToken != null){
             Long id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
             details.setId(id);
-            try {
+            /*try {
                 PublicKey publicKey = encryptorDecryptor.getPublic("src/main/resources/KeyPair/publicKey");
                 String password = details.getPassword();
-                /*String encryptedPassword = encryptorDecryptor.encryptText(password, publicKey);
-                details.setPassword(encryptedPassword);*/
+                String encryptedPassword = encryptorDecryptor.encryptText(password, publicKey);
+                details.setPassword(encryptedPassword);
             }catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
             samcoUserRepository.save(details);
 
             userRepository.updateSamcoDetailsId(confirmationToken.getUser().getUsername(),id);

@@ -48,8 +48,8 @@ public class ApplicationStaterService {
     @Autowired
     ModifyOrderService modifyOrderService;
 
-    public static final String START_TIME = "09:30:00";
-    public static final String END_TIME = "09:45:00";
+    public static final String START_TIME = "09:15:00";
+    public static final String END_TIME = "09:30:00";
     public static final String DATE_PATTERN = "yyyy-MM-dd";
     public static final String TIME_PATTERN = "HH:mm";
 
@@ -70,18 +70,18 @@ public class ApplicationStaterService {
         //dataWriterService.writeData(data); //write data to csv and populate map.
     }
 
-    @Scheduled(cron = "0 35/5 9 * * 1-5")
+    /*@Scheduled(cron = "0 35/5 9 * * 1-5")
     public void startPollingData(){
         if(isPollingServiceEnabled){
             String date = new SimpleDateFormat(DATE_PATTERN).format(new Date());
             String startTime = LocalTime.now().minusMinutes(5).format(DateTimeFormatter.ofPattern(TIME_PATTERN))+":00";
-            String endTIme = LocalTime.now().format(DateTimeFormatter.ofPattern(TIME_PATTERN))+":00";
+            String endTime = LocalTime.now().format(DateTimeFormatter.ofPattern(TIME_PATTERN))+":00";
             String fromDate = date +" "+startTime;
-            String toDate = date+" "+endTIme;
-            dataPollingService.pollData(fromDate,toDate,"5", "Negative");
+            String toDate = date+" "+endTime;
+            dataPollingService.pollData(fromDate,toDate,"5", GlobalUtilities.initialTrend);
             //prepareOrderService.getScripToPlaceOrder(fromDate, toDate, null);//symbol name is null as we want to get data for all the scrips in the list.
         }
-    }
+    }*/
 
     @Scheduled(cron = "0 35/5 9-15 * * MON-FRI")
     public void findStockToBuy(){

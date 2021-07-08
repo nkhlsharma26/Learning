@@ -1,5 +1,6 @@
 package com.nikhil.tradingadvisory.samco.service;
 
+import com.nikhil.tradingadvisory.exception.InvalidTokenException;
 import com.nikhil.tradingadvisory.samco.Abstraction.DataGatheringService;
 import com.nikhil.tradingadvisory.samco.Abstraction.SamcoAuthService;
 import com.nikhil.tradingadvisory.samco.model.*;
@@ -19,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URI;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +51,9 @@ public class DataGatheringServiceImpl implements DataGatheringService {
     private static final String COMMA_DELIMITER = ",";
     private static final String FILE_NAME_WITH_STOCK_NAME_LIST = "src/main/resources/data/stocksNameData.csv";
 
-    List<String> symbols = new ArrayList<>();
     public List<ReferenceData> getDataForStock(String fromDate, String toDate, String interval, List<String> symbolName, boolean referenceData) {
-
-        if(symbolName == null || symbolName.isEmpty()) {
+        List<String> symbols = new ArrayList<>();
+        if(symbolName == null || symbolName.size() == 0) {
             symbols = getSymbolList();
         }
         else{
@@ -81,12 +82,27 @@ public class DataGatheringServiceImpl implements DataGatheringService {
                     }
                     i=0;
                 }
-                IntraDayCandleData intraDayCandleData = getCandleDataForScrip(symbol, samcoToken, fromDate, toDate, interval);
+                IntraDayCandleData intraDayCandleData = null;
+                try{
+                    intraDayCandleData = getCandleDataForScrip(symbol, samcoToken, fromDate, toDate, interval);
+                }catch (InvalidTokenException ex){
+                    samcoToken = samcoAuthService.loginUser(adminUser);
+                    intraDayCandleData = getCandleDataForScrip(symbol, samcoToken, fromDate, toDate, interval);
+                }
+
                 Double percentageChange = 0.0;
                 PreviousDayData previousDayData = null;
                 if(referenceData){
-                    percentageChange = getPercentageChange(symbol, samcoToken);
-                    previousDayData = getPreviousDayDataForSymbol(symbol, samcoToken);
+                    try{
+                        percentageChange = getPercentageChange(symbol, samcoToken);
+                        previousDayData = getPreviousDayDataForSymbol(symbol, samcoToken);
+                    }
+                    catch (InvalidTokenException ex){
+                        samcoToken = samcoAuthService.loginUser(adminUser);
+                        percentageChange = getPercentageChange(symbol, samcoToken);
+                        previousDayData = getPreviousDayDataForSymbol(symbol, samcoToken);
+                    }
+
                 }
 
                 ReferenceData rData = ReferenceData.builder()
@@ -98,6 +114,9 @@ public class DataGatheringServiceImpl implements DataGatheringService {
                         .previousDayData(previousDayData)
                         .percentage(percentageChange)
                         .build();
+                if(previousDayData!=null){
+                    previousDayData.setReferenceData(rData);
+                }
                 writableData.add(rData);
                 i++;
             }
@@ -116,11 +135,20 @@ public class DataGatheringServiceImpl implements DataGatheringService {
         headers.set("x-session-token", token);
         HttpEntity<?> entity = new HttpEntity<>(headers);
         LOGGER.info("calling /quote/getQuote (to get % change) with Symbol: "+symbol+" and on thread :"+ Thread.currentThread().getName());
-        ResponseEntity<QuoteResponse> response = restTemplate.exchange(uri, HttpMethod.GET, entity, QuoteResponse.class);
+        ResponseEntity<QuoteResponse> response = null;
+        try{
+            response = restTemplate.exchange(uri, HttpMethod.GET, entity, QuoteResponse.class);
+        }catch (Exception e){
+            LOGGER.info(e.getMessage());
+            if(e.getMessage().contains("Session Expired. Please login again.")){
+                throw new InvalidTokenException(e.getMessage());
+            }
+        }
+
         return Double.parseDouble(response.getBody().getChangePercentage());
     }
 
-    private IntraDayCandleData getCandleDataForScrip(String symbol, String samcoToken, String fromDate, String toDate, String interval) {
+    public IntraDayCandleData getCandleDataForScrip(String symbol, String samcoToken, String fromDate, String toDate, String interval) throws InvalidTokenException{
         final String END_POINT = "/intraday/candleData";
         String url = stockNoteURI + END_POINT;
         /* Some weired string manipulations done here because I needed to get around the string encoding of RestTemplate.exchange()
@@ -136,8 +164,18 @@ public class DataGatheringServiceImpl implements DataGatheringService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-session-token", samcoToken);
         HttpEntity<?> entity = new HttpEntity<>(headers);
-        LOGGER.info("calling URL with Symbol: "+symbol+" and on thread :"+ Thread.currentThread().getName());
-        ResponseEntity<IntraDayCandleDataList> response = restTemplate.exchange(uri, HttpMethod.GET, entity, IntraDayCandleDataList.class);
+        LOGGER.info("Getting candle data.");
+        LOGGER.info("calling URL with Symbol: "+symbol+" , URL:"+ url);
+        ResponseEntity<IntraDayCandleDataList> response = null;
+        try{
+            response = restTemplate.exchange(uri, HttpMethod.GET, entity, IntraDayCandleDataList.class);
+        }catch (Exception e){
+            LOGGER.info(e.getMessage());
+            if(e.getMessage().contains("Session Expired. Please login again.")){
+                throw new InvalidTokenException(e.getMessage());
+            }
+        }
+
         response.getBody().setSymbol(symbol);
         return response.getBody().getIntradayCandleData().get(0);
     }
@@ -145,21 +183,38 @@ public class DataGatheringServiceImpl implements DataGatheringService {
     private PreviousDayData getPreviousDayDataForSymbol(String symbol, String samcoToken) {
         final String ENDPOINT = "/history/candleData";
         String url = stockNoteURI+ENDPOINT;
+        LocalDate fromDate = LocalDate.now().minusDays(1);
         PreviousDayData previousDayData = null;
+        DayOfWeek day = LocalDate.now().getDayOfWeek();
+
+        if(day == DayOfWeek.MONDAY){
+            fromDate = LocalDate.now().minusDays(3);
+        }
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("symbolName", symbol.replace("M&M","M%26M"))
-                .queryParam("fromDate", LocalDate.now().minusDays(1));
+                .queryParam("fromDate", fromDate);
         URI uri = builder.build(true).toUri();
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-session-token", samcoToken);
         HttpEntity<?> entity = new HttpEntity<>(headers);
-        LOGGER.info("calling URL with Symbol: "+symbol);
+        LOGGER.info("Getting previous day data for symbol: "+symbol);
+        LOGGER.info("calling URL with Symbol: "+symbol+" , URL:"+url);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ResponseEntity<PreviousDayDataResponse> response = restTemplate.exchange(uri, HttpMethod.GET, entity, PreviousDayDataResponse.class);
+        ResponseEntity<PreviousDayDataResponse> response = null;
+        try{
+            response = restTemplate.exchange(uri, HttpMethod.GET, entity, PreviousDayDataResponse.class);
+        }catch (Exception e){
+            LOGGER.info(e.getMessage());
+            if(e.getMessage().contains("Session Expired. Please login again.")){
+                throw new InvalidTokenException(e.getMessage());
+            }
+        }
+
         if(response.getBody() != null){
             HistoricalCandleData data = response.getBody().getHistoricalCandleData().get(0); //this will always have one element as it it candle for whole day
             previousDayData =  PreviousDayData.builder()
