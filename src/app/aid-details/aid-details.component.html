@@ -1,0 +1,52 @@
+<h2>{{pageTitle}}</h2> 
+
+<hr/>
+<div *ngIf="aid">
+    <!--<form (ngSubmit)="onSubmit()">-->
+  <div>
+    <label><b>AidId: </b></label> {{aid.aidId}}
+  </div>
+  <div>
+    <label><b>Name: </b></label> {{aid.name}}
+  </div>
+  <div>
+    <label><b>Start Date: </b></label> {{aid.startDate}}
+  </div>
+  <div>
+    <label><b>House No: </b></label> {{aid.house.houseNo}}
+  </div>
+  <div>
+    <label><b>Address: </b></label> {{aid.house.address}}
+  </div>  
+  <div>
+    <label><b>No Of Service Days: </b></label> {{aid.noOfServiceDays}}
+  </div> 
+  <div>
+    <label><b>Per Day Cost: </b></label> {{aid.perDayCost}}
+  </div> 
+  <div>
+    <label><b>Cost Of Service: </b></label> {{aid.payment.costOfService}}
+  </div> 
+  <div>
+    <label><b>Advance: </b></label> {{aid.payment.advance}}
+  </div>
+  <div>
+    <label><b>Remaining: </b></label> {{aid.payment.remaining}}
+    <span [hidden]="!isRemaining" style="width: 200px; float: right;">
+          <button type="submit" class="btn btn-success" (click)="clearBalance()">Clear Balance</button>   
+    </span>
+  </div>
+  <div>
+    <label><b>Paid: </b></label> {{aid.paid}}
+  </div>
+  <div>
+    <label><b>Complete: </b></label> {{aid.complete}}
+  </div>
+<!--</form>-->
+</div>
+
+<br>
+<br>
+<div style="text-align: center;">
+<button (click)="updateAid(aid)" class="btn btn-info" style="margin-left: 10px">Update Aid</button>
+</div>
